@@ -1,15 +1,13 @@
 const fs = require('fs')
 
+const fetchPokemon = require('./fetchPokemon')
+
 let name = 'pokemon'
 
 // downloads the image of the given Pokémon to a file.
 // communicates with PokéAPI.
 module.exports = pokeId => {
-  // fetch the resource from PokéAPI.
-  // endpoint can be a Pokémon's ID or name.
-  return fetch(`https://pokeapi.co/api/v2/pokemon/${pokeId}`)
-    // parse response as JSON
-    .then(res => res.json())
+  return fetchPokemon(pokeId)
     .then(data => {
       if (data) {
         name = data.species.name
