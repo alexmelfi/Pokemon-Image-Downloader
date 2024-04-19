@@ -14,6 +14,11 @@ module.exports = pokeId => {
         return fetch(data.sprites.front_default)
           .then(res => res.arrayBuffer())
           .then(data => {
+
+            if (!fs.existsSync(`${__dirname}/../images`)) {
+              fs.mkdirSync(`${__dirname}/../images`)
+            }
+
             fs.writeFileSync(`${__dirname}/../images/${name}.png`, Buffer.from(data))
             return Promise.resolve(`${name}.png`)
           })
