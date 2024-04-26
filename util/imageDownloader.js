@@ -18,8 +18,7 @@ module.exports = pokeId => {
         // fetch the image using the stored link.
         return fetch(data.sprites.front_default)
           // parse the image data into an array buffer
-          .then(res => res.arrayBuffer())
-          .then(data => {
+          .then(res => {
 
             // create the /images directory if it does not exist
             if (!fs.existsSync(`${__dirname}/../images`)) {
@@ -27,10 +26,10 @@ module.exports = pokeId => {
             }
 
             // create an image using the parsed array buffer
-            fs.writeFileSync(`${__dirname}/../images/${name}.png`, Buffer.from(data))
-
-            // successful download of the image
-            return Promise.resolve(`${name}.png`)
+            return fs.promises.writeFile(`${__dirname}/../images/${name}.png`, res.body)
+              // successful download of the image
+              .then(() => Promise.resolve(`${name}.png`))
+              .catch(err => Promise.reject(err))
           })
       }
     })
